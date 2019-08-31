@@ -1,12 +1,13 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <img-comp :imgUrl="imgUrl"></img-comp>
-    <button @click="clickBtn1">点我点我</button>
-    <transition name="demo1">
-<!--      <div v-if="showDemo1">aaaa</div>-->
-      <img v-if="showDemo1" :src="imgUrl"/>
-    </transition>
+    <div
+      class="imgComp"
+      @click="change(item)"
+      v-for="item in 10" :key="'hello' + item"
+      :style="{left: lefts[item], top: tops[item],transform: trans[item],margin: margins[item]}">
+        <img-comp :imgUrl="imgUrl" :flag="flags[item]">
+        </img-comp>
+    </div>
   </div>
 </template>
 
@@ -19,32 +20,84 @@ export default {
   },
   data () {
     return {
-      showDemo1: true,
-      imgUrl: require('../assets/kankan.jpg'),
-      msg: 'Welcome to Your Vue.js App',
-      name: ''
+      flags: [],
+      lefts: [],
+      tops: [],
+      trans: [],
+      margins: [],
+      screenWidth: document.body.clientWidth,
+      imgUrl: require('../assets/kankan.jpg')
     }
   },
   methods: {
-    clickBtn1 () {
-      this.showDemo1 = !this.showDemo1
+    getLeft () {
+      let maxHeight = 500
+      let maxWidth = this.screenWidth
+      for (let item = 1; item <= 10; item++) {
+        if (item <= 5) {
+          this.$set(this.lefts, item, Math.round(Math.random() * (maxWidth / 2 - 500) + 30) + 'px')
+          this.$set(this.trans, item, 'rotate(' + Math.round(Math.random() * 360) + 'deg)')
+          this.$set(this.tops, item, Math.round(Math.random() * maxHeight) + 90 + 'px')
+          this.$set(this.margins, item, '')
+          this.$set(this.flags, item, false)
+        } else {
+          let w = Math.round(Math.random() * (maxWidth / 2 - 500))
+          this.$set(this.lefts, item, (maxWidth - 330 - w) + 'px')
+          this.$set(this.trans, item, 'rotate(' + Math.round(Math.random() * 360) + 'deg)')
+          this.$set(this.tops, item, Math.round(Math.random() * maxHeight) + 90 + 'px')
+          this.$set(this.margins, item, '')
+          this.$set(this.flags, item, false)
+        }
+        console.log(this.lefts)
+        // this.lefts[item] = Math.round(Math.random() * (maxWidth / 2 - 500) + 30) + 'px'
+      }
+    },
+    // getTop () {
+    //   let maxHeight = 500
+    //   for (let item = 1; item <= 5; item++) {
+    //     this.$set(this.tops, item, Math.round(Math.random() * maxHeight) + 90 + 'px')
+    //     // this.tops[item] = Math.round(Math.random() * maxHeight) + 90 + 'px'
+    //   }
+    // },
+    // getRotate () {
+    //   for (let item = 1; item <= 5; item++) {
+    //     this.$set(this.trans, item, 'rotate(' + Math.round(Math.random() * 360) + 'deg)')
+    //     console.log('rotate(' + Math.round(Math.random() * 360) + 'deg)')
+    //   }
+    // },
+    change (val) {
+      if (!this.flags[val]) {
+        this.getLeft()
+        this.setCentre(val)
+      }
+    },
+    setCentre (val) {
+      this.$set(this.tops, val, '50%')
+      this.$set(this.lefts, val, '50%')
+      this.$set(this.trans, val, 'rotate(0deg)')
+      this.$set(this.margins, val, '-100px 0 0 -150px')
+      this.$set(this.flags, val, true)
     }
   },
   created () {
-    this.$store.commit('setName', '抗秃青年小鱼')
-    this.name = this.$store.getters.getName
+    this.getLeft()
+    this.setCentre(1)
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .demo1-enter-active,
-  .demo1-leave-active {
-    transform: rotateY(180deg);
+  .hello {
+    width: 100%;
+    height: 100%;
+    background: #42b983;
   }
-  .demo1-enter,
-  .demo1-leave-to {
-    opacity: 0;
+  .imgComp {
+    position:absolute; /*绝对定位*/
+    transition: 0.5s;
+    /*top:50%; !*距顶部50%*!*/
+    /*left:60%;*/
+    /*margin: -150px 0 0 -240px;*/
   }
 </style>
