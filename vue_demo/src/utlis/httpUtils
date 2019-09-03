@@ -1,0 +1,22 @@
+import axios from 'axios'
+
+const service = axios.create({
+  baseURL: process.env.BASE_API, // 设置baaseapi
+  timeout: 60000 // 设置超时时间
+})
+
+service.interceptors.request.use(config => {
+  // config.headers = {
+  //   token: '1212121212121212121212'
+  // }
+  return config
+})
+service.interceptors.response.use(response => {
+  let responseData = response.data
+  /*
+  * 后续可对resonse处理
+  * */
+  return responseData
+})
+
+export default service
