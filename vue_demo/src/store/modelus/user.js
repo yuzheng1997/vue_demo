@@ -1,9 +1,7 @@
-
-const data = {
+const user = {
   state: {
     id: -1,
     name: '',
-    password: '',
     age: ''
   },
   mutations: {
@@ -15,4 +13,4 @@ const data = {
     }
   }
 }
-export default data
+export default user

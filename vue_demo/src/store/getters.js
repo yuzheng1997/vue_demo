@@ -1,8 +1,8 @@
 
 const getters = {
-  getId: state => state.data.id,
-  getName: state => state.data.name,
-  getPassword: state => state.data.password,
-  getAge: state => state.data.age
+  getId: state => state.user.id,
+  getName: state => state.user.name,
+  getAge: state => state.user.age,
+  getToken: state => state.sys.token
 }
 export default getters

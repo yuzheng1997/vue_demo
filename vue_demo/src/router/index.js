@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import login from '@/pages/users/login.vue'
+import Main from '@/pages/index/Main.vue'
+import ItemBank from '@/pages/demo/ItemBank.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -15,6 +17,16 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: login
+    },
+    {
+      path: '/index',
+      name: 'Main',
+      component: Main
+    },
+    {
+      path: '/itembank',
+      name: 'ItemBank',
+      component: ItemBank
     }
   ]
 })
