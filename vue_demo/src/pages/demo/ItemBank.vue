@@ -9,7 +9,6 @@
           </div>
           <div style="margin-top: 20px; float: right" v-show="flag">
             <el-button type="primary" @click="commit">预览</el-button>
-            <el-button>取消</el-button>
           </div>
           <el-table
             :data="tableData"
@@ -88,27 +87,30 @@
                 :flag.sync="formFlag"
                 :show.sync="flag"
                 :form="from"
-                @getForm="getForm" style="margin-top: 108px"></exam>
+                @getForm="getForm" style="margin-top: 107px"></exam>
         </transition>
       </el-col>
     </el-row>
+    <exam-dialog :visible.sync="showEdit" :form="tableData"></exam-dialog>
   </div>
 </template>
 
 <script>
-// import ItemDemo from '@/components/demo/ItemDemo.vue'
+import examDialog from '@/pages/demo/examDialog.vue'
 import exam from '@/pages/demo/exam.vue'
 export default {
   name: 'ItemBank',
   components: {
-    exam
+    exam,
+    examDialog
   },
   data () {
     return {
+      showEdit: false,
       tableData: [{
         id: '12987122',
         name: '第一题',
-        type: '选择',
+        type: '单选题',
         score: '10',
         edit: false,
         option: ['aaa', 'bbb'],
@@ -116,14 +118,24 @@ export default {
         answer: 'aaa'
       },
       {
-        id: '12987122',
+        id: '1298122',
         name: '第一题',
-        type: '简答题',
+        type: '单选题',
         score: '10',
-        option: [],
         edit: false,
+        option: ['aaa', 'bbb'],
         desc: '窝窝头一块钱4个窝窝头一块钱4个窝窝头一块钱4个窝窝头一块钱4个窝窝头一块钱4个窝窝头一块钱4个窝窝头一块钱4个窝窝头一块钱4个',
-        answer: 'abc'
+        answer: 'aaa'
+      },
+      {
+        id: '1298712',
+        name: '第一题',
+        type: '单选题',
+        score: '10',
+        edit: false,
+        option: ['aaa', 'bbb'],
+        desc: '窝窝头一块钱4个窝窝头一块钱4个窝窝头一块钱4个窝窝头一块钱4个窝窝头一块钱4个窝窝头一块钱4个窝窝头一块钱4个窝窝头一块钱4个',
+        answer: 'aaa'
       }],
       flag: false,
       formFlag: false,
@@ -154,6 +166,8 @@ export default {
       this.flag = true
     },
     commit () {
+      this.showEdit = true
+      console.log(this.showEdit)
     },
     selectable () {
       if (!this.flag) {
