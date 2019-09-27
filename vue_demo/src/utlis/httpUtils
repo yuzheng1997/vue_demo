@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import {Message} from 'element-ui'
 const service = axios.create({
   baseURL: process.env.BASE_API, // 设置baaseapi
   timeout: 60000 // 设置超时时间
@@ -16,6 +16,12 @@ service.interceptors.response.use(response => {
   /*
   * 后续可对resonse处理
   * */
+  if (responseData.code === 1) {
+    Message({
+      message: responseData.msg || '出错了！',
+      type: 'error'
+    })
+  }
   return responseData
 })
 

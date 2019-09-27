@@ -1,21 +1,21 @@
 <template>
   <div>
-      <el-row type="flex" justify="center">
-        <el-col :span="20">
-          <el-form :inline="true" :model="queryParams" class="demo-form-inline">
-<!--            <el-form-item label="身份证号">-->
-<!--              <el-input v-model="queryParams.userId" style="width: 200px">-->
-<!--              </el-input>-->
-<!--            </el-form-item>-->
-            <el-form-item label="试卷名称">
-              <el-input v-model="queryParams.paperId" style="width: 200px"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button style="float: right" type="primary" @click="searchByPaper">搜索</el-button>
-            </el-form-item>
-          </el-form>
-        </el-col>
-      </el-row>
+    <el-row type="flex" justify="center">
+      <el-col :span="20">
+        <el-form :inline="true" :model="queryParams" class="demo-form-inline">
+          <el-form-item label="身份证号">
+            <el-input v-model="queryParams.userId" style="width: 200px">
+            </el-input>
+          </el-form-item>
+          <el-form-item label="试卷名称">
+            <el-input v-model="queryParams.paperId" style="width: 200px"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button style="float: right" type="primary" @click="search">搜索</el-button>
+          </el-form-item>
+        </el-form>
+      </el-col>
+    </el-row>
     <el-row :gutter="12">
       <el-col>
         <el-table
@@ -25,12 +25,12 @@
             prop="paperId"
             align="center"
             label="名称"
-            >
+          >
           </el-table-column>
           <el-table-column
             align="center"
             label="开始时间"
-            >
+          >
             <template slot-scope="scope">
               <span>{{scope.row.paperMadetime | timeFilter}}</span>
             </template>
@@ -42,18 +42,18 @@
               <span>{{scope.row.paperExpirationtime | timeFilter}}</span>
             </template>
           </el-table-column>
-<!--          <el-table-column-->
-<!--            prop="testNum"-->
-<!--            align="center"-->
-<!--            label="参考人数">-->
-<!--          </el-table-column>-->
+          <!--          <el-table-column-->
+          <!--            prop="testNum"-->
+          <!--            align="center"-->
+          <!--            label="参考人数">-->
+          <!--          </el-table-column>-->
           <el-table-column
             label="操作"
             align="center"
           >
             <template slot-scope="scope">
-              <el-button type="primary" size="mini" @click="joinExam(scope.row)" v-if="showMethod">参加考试</el-button>
-              <el-button size="mini" type="primary" @click="showDialog(scope.row, 'showEdit')" v-if="!showMethod">查看参考信息</el-button>
+<!--              <el-button type="primary" size="mini" @click="joinExam(scope.row)">参加考试</el-button>-->
+              <el-button size="mini" type="primary" @click="showDialog(scope.row, 'showEdit')">查看参考信息</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -94,12 +94,6 @@ export default {
     this.search()
   },
   methods: {
-    showMethod () {
-      let status = parseInt(window.localStorage.getItem('status'))
-      if (status === 0) {
-        return true
-      }
-    },
     joinExam (data) {
       this.$router.push({name: 'examItem', query: { paperId: data.paperId }})
     },
@@ -110,13 +104,11 @@ export default {
         this.showEdit = true
       }
     },
-    searchByPaper () {
-      this.testApi.queryByPaper({paperId: this.queryParams.paperId}).then(res => {
-        this.tableData = res
-      })
-    },
     search () {
-      this.testApi.selectAllPapers().then(res => {
+      // this.testApi.selectAllPapers().then(res => {
+      //   this.tableData = res
+      // })
+      this.testApi.fuzzyQuery().then(res => {
         this.tableData = res
       })
     }

@@ -41,6 +41,13 @@ export default {
       },
       deep: true,
       immediate: true
+    },
+    dialogFormVisible: {
+      handler (val) {
+        if (val) {
+          console.log(1111111)
+        }
+      }
     }
   }
 }

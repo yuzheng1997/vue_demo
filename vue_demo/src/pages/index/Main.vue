@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="index">
     <Header></Header>
     <router-view></router-view>
   </div>
@@ -15,6 +15,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+  body {
+    background-color: white;
+  }
 </style>
